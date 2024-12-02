@@ -1,0 +1,142 @@
+<html>
+
+<head>
+    <!-- Caching Disabler-->
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="-1">
+    <meta http-equiv="CACHE-CONTROL" content="NO-CACHE">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=yes">
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+        integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <meta name="Description"
+        content="Ishan Sharma ishandeveloper Ishan Inc. Chandigarh, India www.ishandeveloper.com .NET | ML | AI | Python | UI/UX | App Developer | Flutter | Web Developer" />
+    <title>Game Edukasi</title>
+    <link rel="icon" type="image/png" href="">
+    <link rel="apple-touch-icon" href="">
+    <meta name="apple-mobile-web-app-status-bar" content="#FFE1C4">
+    <meta name="theme-color" content="#FFE1C4">
+    <script src="assets/js/app.js"></script>
+    <link rel="manifest" href="manifest.json">
+    <!-- <script src="assets/js/audio-control.js"></script> -->
+    <style>
+        .letter:hover {
+            background-color: #007bff;
+            color: #fff;
+            transform: scale(1.2);
+            transition: all 0.2s;
+        }
+    </style>
+</head>
+
+<body id="index-body" style="overflow: hidden;">
+    
+        <div>
+            <!-- Link home diganti dengan ikon -->
+            <a href="index.html" style="display: inline-block; text-decoration: none; margin: 10px;">
+                <!-- Menggunakan Font Awesome untuk ikon home -->
+                <i class="fa fa-home" style="font-size: 24px; color: blue;"></i>
+            </a>
+        </div>
+        <div class="container d-flex justify-content-start align-items-center vh-100">
+            <div class="card shadow-lg" style="width: 40rem; position: relative; overflow: hidden;">
+                <div class="card-body">
+                    <h3 class="card-title text-center text-primary">
+                        <span class="typer" id="main" data-words="Bagian 1" data-delay="100" 
+                              data-deleteDelay="1000" data-loop="1"></span>
+                    </h3>
+                    <hr>
+                    <p class="card-text text-center">Ketuk Huruf r sebagai awalan kata rumah</p>
+                    
+                    <!-- Form Input -->
+                    <div class="text-center mt-3">
+                        <input type="text" class="form-control w-50 mx-auto text-center" id="answer" placeholder="Isi huruf di sini">
+                    </div>
+        
+                    <!-- Area Huruf Acak -->
+                    <div class="position-relative mt-4" style="height: 200px; border: 1px dashed #ccc;">
+                        <div id="letters-area" class="position-relative"></div>
+                    </div>
+                </div>
+            </div>
+        </div>        
+        <script async src="https://unpkg.com/typer-dot-js@0.1.0/typer.js"></script>        
+        
+    <!-- <div class="legal">
+        <a href="legal.html">legal</a>
+    </div> -->
+    <!-- <script src="assets/js/audio-control.js"></script> -->
+    <script>
+        // Huruf yang akan diacak
+        const letters = ["r", "a", "b", "c", "d"]; // Salah satu adalah huruf yang benar
+        const correctLetter = "r"; // Huruf yang benar
+        const lettersArea = document.getElementById("letters-area");
+        const answerInput = document.getElementById("answer"); // Input field
+    
+        // Array untuk menyimpan posisi yang sudah digunakan
+        const usedPositions = [];
+    
+        // Fungsi untuk memeriksa apakah dua elemen bertabrakan
+        const isOverlapping = (x, y, size = 40) => {
+            return usedPositions.some(
+                (pos) =>
+                    Math.abs(pos.x - x) < size && Math.abs(pos.y - y) < size
+            );
+        };
+    
+        // Fungsi untuk mengacak posisi huruf tanpa saling menimpa
+        const generateNonOverlappingPosition = () => {
+            const containerWidth = 400; // Lebar card
+            const containerHeight = 200; // Tinggi card
+            let x, y;
+            let attempts = 0;
+    
+            do {
+                x = Math.random() * (containerWidth - 40); // Kurangi ukuran elemen
+                y = Math.random() * (containerHeight - 40); // Kurangi ukuran elemen
+                attempts++;
+            } while (isOverlapping(x, y) && attempts < 100); // Batasi maksimal percobaan
+    
+            usedPositions.push({ x, y }); // Simpan posisi
+            return { x, y };
+        };
+    
+        // Generate huruf acak
+        letters.forEach((letter) => {
+            const { x, y } = generateNonOverlappingPosition();
+            const letterElement = document.createElement("div");
+            letterElement.textContent = letter;
+            letterElement.className = "letter";
+            letterElement.style.position = "absolute";
+            letterElement.style.left = `${x}px`;
+            letterElement.style.top = `${y}px`;
+            letterElement.style.fontSize = "20px";
+            letterElement.style.padding = "10px";
+            letterElement.style.backgroundColor = "#007bff";
+            letterElement.style.color = "#fff";
+            letterElement.style.borderRadius = "50%";
+            letterElement.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.1)";
+            letterElement.style.cursor = "pointer";
+    
+            // Tambahkan event click
+            letterElement.addEventListener("click", () => {
+                answerInput.value = letter; // Isi input dengan huruf yang diklik
+                if (letter === correctLetter) {
+                    alert("Yey Kamu benar!");
+                } else {
+                    alert("Maaf kamu salah, silahkan coba lagi");
+                }
+            });
+    
+            // Tambahkan ke area huruf
+            lettersArea.appendChild(letterElement);
+        });
+    </script>
+       
+</body>
+
+</html>

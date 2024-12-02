@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=yes">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+        integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <style>
+        .letter {
+            background-color: #28a745;
+            color: #fff;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin: 5px;
+            font-size: 18px;
+            cursor: grab;
+            display: inline-block;
+        }
+
+        .letter:hover {
+            background-color: #218838;
+        }
+
+        .sentence-area {
+            min-height: 50px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            display: flex;
+            flex-wrap: wrap;
+            padding: 10px;
+        }
+
+        .word {
+            background-color: #ffc107;
+            color: black;
+            padding: 5px 10px;
+            border-radius: 5px;
+            margin: 5px;
+            cursor: pointer;
+        }
+
+        .word:hover {
+            background-color: #e0a800;
+        }
+    </style>
+    <title>Game Edukasi - Bagian 3</title>
+</head>
+
+<body id="index-body-gitar" style="overflow: hidden;">
+    <div>
+        <!-- Link Home -->
+        <a href="/index.html" onclick="return confirmLeave()" style="display: inline-block; text-decoration: none; margin: 10px;">
+            <i class="fa fa-home" style="font-size: 45px; color: blue;"></i>
+        </a>
+    </div>
+    <div class="container d-flex justify-content-start align-items-center vh-100">
+        <div class="card shadow-lg" style="width: 40rem; position: relative;">
+            <div class="card-body text-center">
+                <h3 class="card-title text-primary">Bagian 3</h3>
+                <hr>
+                <!-- Petunjuk -->
+                <p class="card-text">Susunlah kalimat sederhana menggunakan objek <strong>"Gitar"</strong>. yaitu: "Gitarku Bunyinya Bagus"</p>
+
+                <!-- Area Kalimat -->
+                <div class="letters-container mt-4" id="words-area"></div>
+
+                <!-- Area Penyusunan -->
+                <div class="mt-4">
+                    <p class="text-muted">Geser kata-kata berikut ke sini untuk menyusun kalimat:</p>
+                    <div class="sentence-area border p-3" id="sentence-area"></div>
+                </div>
+
+                <!-- Tombol Validasi -->
+                <button class="btn btn-primary mt-3" id="validate-button">Cek Jawaban</button>
+
+                <!-- Tombol Refresh -->
+                <button class="btn btn-secondary mt-3" id="refresh-button">Ulang</button>
+                <button class="btn btn-success mt-3 d-none" id="next-button">Lanjut</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const correctSentence = "gitarku bunyinya bagus"; // Jawaban benar
+        const words = ["merdu", "gitarku", "senang", "bunyinya", "susah", "bagus"]; // Pilihan kata
+        const wordsArea = document.getElementById("words-area");
+        const sentenceArea = document.getElementById("sentence-area");
+        const validateButton = document.getElementById("validate-button");
+        const refreshButton = document.getElementById("refresh-button");
+
+        function setupGame4() {
+            // Kosongkan area
+            wordsArea.innerHTML = "";
+            sentenceArea.innerHTML = "";
+
+            // Tampilkan kata-kata acak
+            words.forEach((word) => {
+                const wordElement = document.createElement("div");
+                wordElement.textContent = word;
+                wordElement.className = "letter";
+                wordElement.draggable = true;
+
+                // Event drag
+                wordElement.addEventListener("dragstart", (e) => {
+                    e.dataTransfer.setData("text/plain", word);
+                });
+
+                wordsArea.appendChild(wordElement);
+            });
+        }
+
+        // Area penyusunan menerima kata
+        sentenceArea.addEventListener("dragover", (e) => {
+            e.preventDefault();
+        });
+
+        sentenceArea.addEventListener("drop", (e) => {
+            e.preventDefault();
+            const word = e.dataTransfer.getData("text/plain");
+            const span = document.createElement("span");
+            span.textContent = word + " ";
+            span.style.marginRight = "5px";
+            span.className = "word";
+
+            // Klik untuk menghapus kata
+            span.addEventListener("click", () => {
+                sentenceArea.removeChild(span);
+            });
+
+            sentenceArea.appendChild(span);
+        });
+
+        // Referensi tombol "Lanjut"
+        const nextButton = document.getElementById("next-button");
+
+        // Validasi kalimat
+        validateButton.addEventListener("click", () => {
+            const userSentence = Array.from(sentenceArea.querySelectorAll(".word"))
+                .map((word) => word.textContent.trim().toLowerCase())
+                .join(" ");
+            if (userSentence === correctSentence) {
+                alert("Selamat! Kamu berhasil menyusun kalimat.");
+                nextButton.classList.remove("d-none"); // Tampilkan tombol "Lanjut"
+            } else {
+                alert("Maaf, kalimatmu belum benar. Coba lagi!");
+            }
+        });
+
+        // Fungsi untuk berpindah halaman
+        nextButton.addEventListener("click", () => {
+            window.location.href = "/levelpermainan.html";
+        });
+
+        // Tombol ulang
+        refreshButton.addEventListener("click", setupGame4);
+
+        // Inisialisasi game bagian 4
+        setupGame4();
+
+        // Fungsi untuk konfirmasi sebelum meninggalkan halaman
+        function confirmLeave() {
+            return confirm("Apakah kamu yakin ingin meninggalkan halaman ini?");
+        }
+    </script>
+</body>
+
+</html>

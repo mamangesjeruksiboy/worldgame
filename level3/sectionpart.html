@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-159411627-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-159411627-1');
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/style.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=yes">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+        integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <title>Game Edukasi</title>
+</head>
+
+<body id="index-body-sabun" style="overflow-x: hidden;">
+    <div>
+        <a href="index.html" style="display: inline-block; text-decoration: none; margin: 10px;">
+            <i class="fa fa-home" style="font-size: 45px; color: blue;"></i>
+        </a>
+    </div>
+    <div>
+        <div class="fadeIn row" style="width: 100vw; height: 100vh; animation-duration: 1.5s; display: flex; justify-content: center; align-items: center; text-align: center;">
+            <div class="col-md-12" id="left-hero">
+                <h1 class="hero-tag contact-hero fadeInLeft text-center">Level 3</h1>
+                <br>
+                <h3 class="fadeInLeft text-center">Mengeja kata <span class="highlight">Sabun</span></h3>
+                <h3 class="hero-tag contact-hero fadeInLeft text-center" style="background-color: white; display: inline-block; padding: 10px; border-radius: 5px;">
+                    <span style="color: red;">Sa</span>-<span style="color: blue;">Bun</span>
+                </h3>
+                <br>
+                <div class="row text-center" style="gap: 10px; justify-content: center;">
+                    <a id="bagian1" href="bagian2lev1.html"><button class="start-button">Bagian 1</button></a>
+                    <a id="bagian2" href="#"><button class="start-button" disabled>Bagian 2</button></a>
+                    <a id="bagian3" href="#"><button class="start-button" disabled>Bagian 3</button></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Cek status penyelesaian dari localStorage
+        window.onload = function () {
+            const bagian1Status = localStorage.getItem('bagian1Completed');
+            const bagian2Link = document.getElementById('bagian2');
+            const bagian3Link = document.getElementById('bagian3');
+
+            if (bagian1Status === 'true') {
+                // Jika bagian 1 sudah selesai, aktifkan bagian 2 dan 3
+                bagian2Link.href = 'bagian3lev1.html';
+                bagian3Link.href = 'bagian4lev1.html';
+                bagian2Link.querySelector('button').disabled = false;
+                bagian3Link.querySelector('button').disabled = false;
+            }
+        };
+
+        // Fungsi untuk menandai bahwa bagian 1 telah selesai
+        document.getElementById('bagian1').addEventListener('click', function () {
+            localStorage.setItem('bagian1Completed', 'true');
+        });
+    </script>
+</body>
+
+</html>

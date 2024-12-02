@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="-1">
+    <meta http-equiv="CACHE-CONTROL" content="NO-CACHE">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+        integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=yes">
+    <title>Game Edukasi - Bagian 2</title>
+    <style>
+        #index-body2 {
+            background: url('/assets/img/bggatal.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        .letter:hover {
+            background-color: #007bff;
+            color: #fff;
+            transform: scale(1.2);
+            transition: all 0.2s;
+        }
+
+        .letter {
+            display: inline-block;
+            margin: 5px;
+            font-size: 24px;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .letters-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: nowrap;
+            gap: 10px;
+        }
+
+        .images-container {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+
+        .image-container {
+            text-align: center;
+        }
+
+        .image-container img {
+            width: 150px;
+            height: auto;
+        }
+
+        .image-container p {
+            margin-top: 5px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .refresh-button {
+            margin-top: 15px;
+        }
+
+        .separator {
+            display: inline-block;
+            font-size: 24px;
+            padding: 10px;
+            color: black;
+            font-weight: bold;
+        }
+
+        .answers-card {
+            position: absolute;
+            top: 10%;
+            right: 5%;
+            width: 25rem;
+        }
+    </style>
+</head>
+
+<body id="index-body2" style="overflow: hidden;">
+    <div>
+        <!-- Link Home -->
+        <a href="/index.html" onclick="return confirmLeave()" style="display: inline-block; text-decoration: none; margin: 10px;">
+            <i class="fa fa-home" style="font-size: 45px; color: blue;"></i>
+        </a>
+    </div>
+    <div class="container vh-100 d-flex align-items-center">
+        <div class="row w-100">
+            <!-- Card Utama -->
+            <div class="col-md-7">
+                <div class="card shadow-lg custom-padding">
+                    <div class="card-body text-center">
+                        <h3 class="card-title text-primary">Bagian 2</h3>
+                        <hr>
+                        <!-- Gambar rumah dan dapur -->
+                        <div class="images-container">
+                            <div class="image-container">
+                                <img src="/assets/img/gatal.png" alt="Gambar Rumah">
+                                <p>Gatal</p>
+                            </div>
+                            <div class="image-container">
+                                <img src="/assets/img/badan.jpg" alt="Gambar Dapur">
+                                <p>Badan</p>
+                            </div>
+                        </div>
+                        <!-- Petunjuk -->
+                        <p class="card-text">Susunlah kata dari gabungan huruf Gatal dan Badan yaitu : "ladang", "tangga", "tanggal", "naga", "ganda"</p>
+                        <!-- Form Input -->
+                        <div class="mt-3">
+                            <input type="text" class="form-control w-50 mx-auto text-center" id="answer" placeholder="Isi huruf di sini" maxlength="10">
+                        </div>
+                        <!-- Area Huruf Acak -->
+                        <div class="letters-container mt-4">
+                            <div id="letters-area"></div>
+                        </div>
+                        <!-- Tombol Refresh -->
+                        <button class="btn btn-secondary refresh-button" id="refresh">Ulang susun</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card Jawaban -->
+            <div class="col-md-4 ml-auto">
+                <div class="card shadow-lg custom-padding">
+                    <div class="card-body">
+                        <h5>Jawaban:</h5>
+                        <ul id="answers-list">
+                            <!-- List Jawaban -->
+                        </ul>
+                        <!-- Tombol Ke Halaman Selanjutnya -->
+                        <button id="next-button" class="btn btn-primary mt-3 d-none" onclick="goToNextPage()">Ke Halaman Selanjutnya</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const correctAnswers = ["ladang", "tangga", "tanggal", "naga", "ganda"]; // Jawaban benar
+        const lettersArea = document.getElementById("letters-area");
+        const answerInput = document.getElementById("answer");
+        const refreshButton = document.getElementById("refresh");
+        const answersList = document.getElementById("answers-list");
+        const nextButton = document.getElementById("next-button");
+    
+        const part1 = "gatal";
+        const part2 = "badan";
+        let answeredCorrectly = [];
+
+        // Inisialisasi daftar jawaban
+        function initializeAnswersList() {
+            answersList.innerHTML = ""; // Kosongkan daftar
+            correctAnswers.forEach((answer) => {
+                const listItem = document.createElement("li");
+                listItem.textContent = answer;
+                listItem.id = `answer-${answer}`;
+                answersList.appendChild(listItem);
+            });
+        }
+
+        // Validasi jawaban
+        function validateAnswer() {
+            const userAnswer = answerInput.value.toLowerCase();
+            if (correctAnswers.includes(userAnswer) && !answeredCorrectly.includes(userAnswer)) {
+                answeredCorrectly.push(userAnswer);
+
+                // Tampilkan ceklis di samping jawaban
+                const listItem = document.getElementById(`answer-${userAnswer}`);
+                listItem.innerHTML = `${userAnswer} <span style="color: green;">✔️</span>`;
+
+                // Kosongkan input
+                answerInput.value = "";
+
+                // Periksa jika semua jawaban sudah benar
+                if (answeredCorrectly.length === correctAnswers.length) {
+                    nextButton.classList.remove("d-none"); // Tampilkan tombol ke halaman selanjutnya
+                }
+            }
+        }
+
+        // Tombol refresh
+        refreshButton.addEventListener("click", setupGame);
+
+        // Inisialisasi permainan
+        function setupGame() {
+            lettersArea.innerHTML = ""; // Kosongkan area huruf
+            answerInput.value = ""; // Kosongkan input
+            answeredCorrectly = []; // Reset jawaban
+            nextButton.classList.add("d-none"); // Sembunyikan tombol next
+            initializeAnswersList(); // Reset daftar jawaban
+
+            // Tambahkan huruf bagian pertama
+            part1.split("").forEach((letter) => createLetterElement(letter));
+            createSeparatorElement("-");
+            part2.split("").forEach((letter) => createLetterElement(letter));
+        }
+
+        function createLetterElement(letter) {
+            const letterElement = document.createElement("div");
+            letterElement.textContent = letter;
+            letterElement.className = "letter";
+            letterElement.addEventListener("click", () => {
+                if (answerInput.value.length < 10) {
+                    answerInput.value += letter;
+                    validateAnswer();
+                }
+            });
+            lettersArea.appendChild(letterElement);
+        }
+
+        function createSeparatorElement(separator) {
+            const separatorElement = document.createElement("div");
+            separatorElement.textContent = separator;
+            separatorElement.className = "separator";
+            lettersArea.appendChild(separatorElement);
+        }
+
+        // Pindah ke halaman selanjutnya
+        function goToNextPage() {
+            window.location.href = "bagian4lev1.html";
+        }
+
+        // Mulai permainan
+        setupGame();
+
+        // Fungsi untuk konfirmasi sebelum meninggalkan halaman
+        function confirmLeave() {
+            return confirm("Apakah kamu yakin ingin meninggalkan halaman ini?");
+        }
+    </script>
+</body>
+
+</html>
