@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-159411627-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-159411627-1');
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=yes">
+    <title>Game Edukasi</title>
+    <link rel="icon" type="image/png" href="">
+</head>
+
+<body id="index-body2" style="overflow-x: hidden; position: relative;">
+
+    <!-- Video Background -->
+    <video autoplay muted loop id="video-background">
+        <source src="assets/video/video2.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <!-- Konten Utama -->
+    <div style="position: relative; z-index: 2;">
+        <div>
+            <nav class="nav-desk"></nav>
+            <div class="fadeIn row" style="width:100vw;height:auto;animation-duration: 1.5s; text-align: center;">
+                <div class="col-md-12" id="left-hero">
+                    <h1 class="hero-tag contact-hero fadeInLeft text-center">WORLD</h1>
+                    <h3 class="hero-des contact-des fadeIn delay-1s word-game-title">WORD GAME</h3>
+                </div>
+                <div class="col-md-12" id="left-hero">
+                    <a href="petunjuk1.html"><button class="start-button">Selanjutnya</button></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="legal">
+        <button id="playSoundButton" onclick="playSound()">Play Sound</button>
+    </div>
+    <script src="assets/js/audio-control.js"></script>
+</body>
+
+</html>
